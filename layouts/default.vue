@@ -44,7 +44,7 @@
                   </v-list-item-content>
                 </v-list-item>
 
-                <!-- <v-divider class="my-2"></v-divider>
+                <v-divider class="my-2"></v-divider>
 
                 <v-list-item
                   link
@@ -52,10 +52,10 @@
                 >
                   <v-list-item-content>
                     <v-list-item-title>
-                      Refresh
+                      Выход
                     </v-list-item-title>
                   </v-list-item-content>
-                </v-list-item> -->
+                </v-list-item>
               </v-list>
             </v-sheet>
           </v-col>
@@ -64,6 +64,7 @@
             <v-sheet
               min-height="70vh"
               rounded="lg"
+              class="pa-4"
             >
               <Nuxt />
             </v-sheet>
@@ -84,12 +85,8 @@
           url: 'index'
         },
         {
-          text: 'Второстепенная',
-          url: 'secondary'
-        },
-        {
-          text: 'askldaklsjd',
-          url: 'asdasd'
+          text: 'Заявки',
+          url: 'requests'
         }
       ]
     }),
