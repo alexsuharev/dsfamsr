@@ -49,6 +49,7 @@
                 <v-list-item
                   link
                   color="grey lighten-4"
+                  @click="logout"
                 >
                   <v-list-item-content>
                     <v-list-item-title>
@@ -90,5 +91,10 @@
         }
       ]
     }),
+    methods: {
+      async logout() {
+        await this.$fire.auth.signOut();
+      }
+    }
   }
 </script>

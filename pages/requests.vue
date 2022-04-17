@@ -3,154 +3,180 @@
     <div class="d-flex align-items-center justify-space-between mb-5">
       <!-- <pages-title text="Заявки" :has-margin="false" /> -->
       <!-- <div class="d-flex align-items-center justify-space-between"> -->
-        <v-sheet width="280">
-          <v-select
-            :items="filter.types.items"
-            v-model="filter.types.selected"
-            label="Типы заявок"
-            outlined
-            hide-details
-          ></v-select>
-        </v-sheet>
-        <v-dialog
-          v-model="newRequestForm.isOpened"
-          width="900"
-        >
-          <template v-slot:activator="{ on, attrs }">
-            <v-btn
-              color="primary"
-              v-bind="attrs"
-              v-on="on"
-              x-large
-              class="ml-4"
-            >
-              создать заявку
+      <v-sheet width="280">
+        <v-select :items="filter.types.items" v-model="filter.types.selected" label="Типы заявок" outlined hide-details>
+        </v-select>
+      </v-sheet>
+      <v-dialog v-model="newRequestForm.isOpened" width="900">
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn color="primary" v-bind="attrs" v-on="on" x-large class="ml-4">
+            создать заявку
+          </v-btn>
+        </template>
+
+        <v-card>
+          <v-card-title class="text-h5">
+            Новая Заявка
+          </v-card-title>
+
+          <v-card-text>
+            <v-row>
+              <v-col cols="6">
+                <v-select :items="newRequestForm.data.type.items" v-model="newRequestForm.data.type.selected"
+                  label="Тип заявки" outlined hide-details class="mb-4" />
+              </v-col>
+              <v-col cols="6">
+                <v-autocomplete v-model="newRequestForm.data.contructor.selected"
+                  :items="newRequestForm.data.contructor.items" outlined label="Исполнитель" clearable class="mb-4"
+                  hide-details />
+              </v-col>
+            </v-row>
+
+            <v-autocomplete v-model="institutions.selected" :items="institutions.items" outlined
+              label="Образовательное учреждение" clearable :filter="filtering" class="mb-4" hide-details>
+              <template v-slot:selection="data">
+                <div>
+                  <div>
+                    <strong>{{ data.item.name }}</strong>
+                  </div>
+                  <div>
+                    <span>{{ data.item.address }}</span>
+                  </div>
+                </div>
+              </template>
+              <template v-slot:item="data">
+                <template>
+                  <v-list-item-content>
+                    <v-list-item-title>{{ data.item.name }}</v-list-item-title>
+                    <v-list-item-subtitle>{{ data.item.address }}</v-list-item-subtitle>
+                    <v-list-item-subtitle>{{ data.item.id }}</v-list-item-subtitle>
+                  </v-list-item-content>
+                </template>
+              </template>
+            </v-autocomplete>
+            <v-textarea v-model="newRequestForm.data.description" outlined label="Описание" hide-details class="mb-4"
+              rows="1">
+            </v-textarea>
+            <v-row>
+              <v-col cols="6">
+                <v-text-field v-model="newRequestForm.data.applicant_name" label="ФИО заявителя" outlined hide-details>
+                </v-text-field>
+              </v-col>
+              <v-col cols="6">
+                <v-text-field v-model="newRequestForm.data.applicant_phone" label="Телефонный номер заявителя" outlined
+                  hide-details></v-text-field>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="4">
+                <v-text-field v-model="newRequestForm.data.incident_id" label="Номер инцидента" outlined hide-details>
+                </v-text-field>
+              </v-col>
+              <v-col cols="4">
+                <v-menu v-model="newRequestForm.data.datePicker" transition="scale-transition" offset-y
+                  min-width="auto">
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-text-field :value="newRequestForm.data.date" @blur="setDate" label="Крайная дата выполнения"
+                      prepend-icon="mdi-calendar" readonly v-bind="attrs" v-on="on" outlined></v-text-field>
+                  </template>
+                  <v-date-picker v-model="newRequestForm.data.date" @input="newRequestForm.data.datePicker = false" locale="ru-RU">
+                  </v-date-picker>
+                </v-menu>
+              </v-col>
+              <v-col cols="4">
+                <v-menu ref="menu" v-model="menu2" :close-on-content-click="false" :nudge-right="40"
+                  :return-value.sync="time" transition="scale-transition" offset-y max-width="290px" min-width="290px">
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-text-field v-model="time" label="Крайнее время выполнения" prepend-icon="mdi-clock-time-four-outline"
+                      readonly v-bind="attrs" v-on="on" outlined></v-text-field>
+                  </template>
+                  <v-time-picker v-if="menu2" v-model="time" full-width @click:minute="$refs.menu.save(time)" format="24hr">
+                  </v-time-picker>
+                </v-menu>
+              </v-col>
+            </v-row>
+          </v-card-text>
+
+          <v-divider></v-divider>
+
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="primary" @click="newRequestForm.isOpened = false">
+              Создать
             </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+      <!-- </div> -->
+    </div>
+
+    <v-data-table :headers="headers" :items="desserts" :items-per-page="5" class="elevation-1">
+      <template #[`item.id`]="{ item }">
+        <v-dialog v-model="item.isInfoOpened" width="1000">
+          <template v-slot:activator="{ on, attrs }">
+            <v-chip class="ma-2" color="red" text-color="white" v-if="item.priority.selected === 'Критический'"
+              v-bind="attrs" v-on="on">
+              {{ item.id }}
+            </v-chip>
+            <v-chip class="ma-2" color="orange" text-color="white" v-if="item.priority.selected === 'Высокий'"
+              v-bind="attrs" v-on="on">
+              {{ item.id }}
+            </v-chip>
+            <v-chip class="ma-2" color="primary" text-color="white" v-if="item.priority.selected === 'Средний'"
+              v-bind="attrs" v-on="on">
+              {{ item.id }}
+            </v-chip>
+            <v-chip class="ma-2" color="green" text-color="white" v-if="item.priority.selected === 'Низкий'"
+              v-bind="attrs" v-on="on">
+              {{ item.id }}
+            </v-chip>
           </template>
 
           <v-card>
-            <v-card-title class="text-h5">
-              Новая Заявка
+            <v-card-title class="text-h5 align-center justify-space-between">
+              <div>Заявка № {{ item.id }}</div>
+              <v-sheet width="200">
+                <v-select :items="item.status.items" v-model="item.status.selected" outlined dense hide-selected
+                  hide-details></v-select>
+              </v-sheet>
             </v-card-title>
 
             <v-card-text>
-              <v-select
-                :items="newRequestForm.data.type.items"
-                v-model="newRequestForm.data.type.selected"
-                label="Тип заявки"
-                outlined
-                hide-details
-                class="mb-4"
-              ></v-select>
-              <v-textarea
-                v-model="newRequestForm.data.description"
-                outlined
-                label="Описание"
-                hide-details
-                class="mb-4"
-              ></v-textarea>
-              <v-text-field
-                v-model="newRequestForm.data.applicant_name"
-                label="ФИО заявителя"
-                outlined
-                hide-details
-                class="mb-4"
-              ></v-text-field>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+              dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
+              ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
+              fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
+              mollit anim id est laborum.
             </v-card-text>
 
             <v-divider></v-divider>
 
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn
-                color="primary"
-                @click="newRequestForm.isOpened = false"
-              >
-                Создать
+              <v-btn color="primary" text @click="item.isInfoOpened = false">
+                Закрыть
               </v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>
-     <!-- </div> -->
-    </div>
-
-    <v-data-table
-      :headers="headers"
-      :items="desserts"
-      :items-per-page="5"
-      class="elevation-1"
-    >
-      <template #[`item.id`]="{ item }">
-        <v-chip
-          class="ma-2"
-          color="red"
-          text-color="white"
-          v-if="item.priority.selected === 'Критический'"
-        >
-          {{ item.id }}
-        </v-chip>
-        <v-chip
-          class="ma-2"
-          color="orange"
-          text-color="white"
-          v-if="item.priority.selected === 'Высокий'"
-        >
-          {{ item.id }}
-        </v-chip>
-        <v-chip
-          class="ma-2"
-          color="primary"
-          text-color="white"
-          v-if="item.priority.selected === 'Средний'"
-        >
-          {{ item.id }}
-        </v-chip>
-        <v-chip
-          class="ma-2"
-          color="green"
-          text-color="white"
-          v-if="item.priority.selected === 'Низкий'"
-        >
-          {{ item.id }}
-        </v-chip>
       </template>
       <template #[`item.status`]="{ item }">
         <v-sheet width="130">
-          <v-select
-            :items="item.status.items"
-            v-model="item.status.selected"
-            outlined
-            dense
-            hide-selected
-            hide-details
-          ></v-select>
+          <v-select :items="item.status.items" v-model="item.status.selected" outlined dense hide-selected hide-details>
+          </v-select>
         </v-sheet>
       </template>
       <template #[`item.contractor`]="{ item }">
         <v-sheet width="130">
-          <v-select
-            :items="item.contractor.items"
-            v-model="item.contractor.selected"
-            outlined
-            dense
-            hide-selected
-            hide-details
-          ></v-select>
+          <v-select :items="item.contractor.items" v-model="item.contractor.selected" outlined dense hide-selected
+            hide-details></v-select>
         </v-sheet>
       </template>
       <template #[`item.request`]="{ item }">
-        <v-switch
-          v-model="item.request"
-          color="primary"
-          hide-details
-          class="ma-0"
-        ></v-switch>
+        <v-switch v-model="item.request" color="primary" hide-details class="ma-0" disabled></v-switch>
       </template>
       <template #[`item.actions`]>
-        <v-btn
-          icon
-          color="primary"
-        >
+        <v-btn icon color="primary">
           <v-icon dark>
             mdi-minus
           </v-icon>
@@ -161,125 +187,193 @@
 </template>
 
 <script>
-export default {
-  name: "SecondaryPage",
-  components: {
-    // PagesTitle: () => import('~/components/PagesTitle.vue')
-  },
-  data: () => ({
-    newRequestForm: {
-      isOpened: false,
-      IsProgressed: false,
-      data: {
-        description: "",
-        applicant_name: "",
-        type: {
-          selected: 'Выезды',
+  export default {
+    name: "SecondaryPage",
+    components: {
+      // PagesTitle: () => import('~/components/PagesTitle.vue')
+    },
+    data: () => ({
+      time: null,
+      menu2: false,
+      newRequestForm: {
+        isOpened: false,
+        IsProgressed: false,
+        data: {
+          description: "",
+          applicant_name: "",
+          applicant_phone: "",
+          incident_id: "",
+          datePicker: false,
+          // timePicker: false,
+          date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
+          // time: null,
+          type: {
+            selected: 'Выезды',
+            items: [
+              'Сервисное обслуживание',
+              'Выезды',
+              'Допоствка карт'
+            ]
+          },
+          contructor: {
+            selected: '',
+            items: [
+              'Вася Пупкин',
+              'Петров Петр',
+              'Алексеев Алексей',
+              'Васильев Василий',
+              'Иванов Иван',
+            ]
+          }
+        }
+      },
+      filter: {
+        types: {
+          selected: 'Все',
           items: [
+            'Все',
             'Сервисное обслуживание',
             'Выезды',
             'Допоствка карт'
           ]
         }
-      }
-    },
-    filter: {
-      types: {
-        selected: 'Все',
-        items: [
-          'Все',
-          'Сервисное обслуживание',
-          'Выезды',
-          'Допоствка карт'
+      },
+      headers: [{
+          text: 'ID',
+          align: 'start',
+          sortable: false,
+          value: 'id',
+        },
+        {
+          text: 'Статуc',
+          value: 'status'
+        },
+        {
+          text: 'Исполнитель',
+          value: 'contractor'
+        },
+        {
+          text: 'ЗНО',
+          value: 'request'
+        },
+        {
+          text: 'Инициатор',
+          value: 'creator'
+        },
+        {
+          text: 'Крайний срок',
+          value: 'ready_date'
+        },
+        // { text: '', value: 'actions', sortable: false },
+      ],
+      desserts: [{
+          id: 'jkh1kj2h3jkh13',
+          isInfoOpened: false,
+          priority: {
+            selected: 'Средний',
+            items: [
+              'Низкий',
+              'Средний',
+              'Высокий',
+              'Критический',
+            ]
+          },
+          status: {
+            selected: 'В обработке',
+            items: [
+              'В обработке',
+              'В процессе',
+              'В ремонте',
+              'Отклонено',
+              'Выполнено',
+            ]
+          },
+          contractor: {
+            selected: 'Вася Пупкин',
+            items: [
+              'Вася Пупкин',
+              'Петров Петр',
+              'Алексеев Алексей',
+              'Васильев Василий',
+              'Иванов Иван',
+            ]
+          },
+          request: true,
+          creator: 'Алексеев А. А.',
+          ready_date: '05/04/22 08:47:31'
+        },
+        {
+          id: 'ssdd7d7d7d7',
+          isInfoOpened: false,
+          priority: {
+            selected: 'Низкий',
+            items: [
+              'Низкий',
+              'Средний',
+              'Высокий',
+              'Критический',
+            ]
+          },
+          status: {
+            selected: 'В ремонте',
+            items: [
+              'В обработке',
+              'В процессе',
+              'В ремонте',
+              'Отклонено',
+              'Выполнено',
+            ]
+          },
+          contractor: {
+            selected: 'Васильев Василий',
+            items: [
+              'Вася Пупкин',
+              'Петров Петр',
+              'Алексеев Алексей',
+              'Васильев Василий',
+              'Иванов Иван',
+            ]
+          },
+          request: false,
+          creator: 'Алексеев А. А.',
+          ready_date: '28/07/22 18:47:31'
+        }
+      ],
+      institutions: {
+        selected: null,
+        items: [{
+            id: '122d',
+            address: 'Улица Пушкина, дом Колотушкина',
+            name: "Институт №505 им. М. М. Макеева города Кохма"
+          },
+          {
+            id: '3kk3',
+            address: 'Улица Колотушкина, дом Пушкина',
+            name: "Школа №186 им. К. А. Павлова города Апшеронск"
+          },
+          {
+            id: '3kk3',
+            address: 'Улица Трататаевская, дом 23',
+            name: "Лицей №714 им. В. М. Полякова города Весьегонск"
+          },
+          {
+            id: '3kk3',
+            address: 'Улица Ололоева, дом 3536',
+            name: "Школа №97 им. К. Д. Овчинникова города Донецк"
+          }
         ]
       }
-    },
-    headers: [
-      {
-        text: 'ID',
-        align: 'start',
-        sortable: false,
-        value: 'id',
+    }),
+    methods: {
+      filtering(item, queryText, itemText) {
+        if (!`${JSON.stringify(item)}`.toLocaleLowerCase().includes(queryText.toLocaleLowerCase())) return false;
+        return item;
       },
-      { text: 'Статуc', value: 'status' },
-      { text: 'Исполнитель', value: 'contractor' },
-      { text: 'ЗНО', value: 'request' },
-      { text: 'Инициатор', value: 'creator' },
-      { text: 'Крайний срок', value: 'ready_date' },
-      { text: '', value: 'actions', sortable: false },
-    ],
-    desserts: [
-      {
-        id: 'jkh1kj2h3jkh13',
-        priority: {
-          selected: 'Средний',
-          items: [
-            'Низкий',
-            'Средний',
-            'Высокий',
-            'Критический',
-          ]
-        },
-        status: {
-          selected: 'В обработке',
-          items: [
-            'В обработке',
-            'В процессе',
-            'В ремонте',
-            'Отклонено',
-            'Выполнено',
-          ]
-        },
-        contractor: {
-          selected: 'Вася Пупкин',
-          items: [
-            'Вася Пупкин',
-            'Петров Петр',
-            'Алексеев Алексей',
-            'Васильев Василий',
-            'Иванов Иван',
-          ]
-        },
-        request: true,
-        creator: 'Алексеев А. А.',
-        ready_date: '05/04/22 08:47:31'
-      },
-      {
-        id: 'ssdd7d7d7d7',
-        priority: {
-          selected: 'Низкий',
-          items: [
-            'Низкий',
-            'Средний',
-            'Высокий',
-            'Критический',
-          ]
-        },
-        status: {
-          selected: 'В ремонте',
-          items: [
-            'В обработке',
-            'В процессе',
-            'В ремонте',
-            'Отклонено',
-            'Выполнено',
-          ]
-        },
-        contractor: {
-          selected: 'Васильев Василий',
-          items: [
-            'Вася Пупкин',
-            'Петров Петр',
-            'Алексеев Алексей',
-            'Васильев Василий',
-            'Иванов Иван',
-          ]
-        },
-        request: false,
-        creator: 'Алексеев А. А.',
-        ready_date: '28/07/22 18:47:31'
+      setDate(event) {
+        this.newRequestForm.data.date = event.target.value;
+        // TODO Исправить краш календаря если не дата
+        // TODO Изменить формат даты на dd/mm/YY
       }
-    ],
-  })
-}
+    }
+  }
 </script>
