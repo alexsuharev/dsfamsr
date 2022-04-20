@@ -88,6 +88,10 @@
         {
           text: 'Заявки',
           url: 'requests'
+        },
+        {
+          text: 'Пользователи',
+          url: 'users'
         }
       ]
     }),

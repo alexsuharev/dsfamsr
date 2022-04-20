@@ -1,22 +1,22 @@
 <template>
   <div class="wrapper">
     <div class="d-flex align-items-center justify-space-between mb-5">
-      <!-- <pages-title text="Заявки" :has-margin="false" /> -->
+      <pages-title text="Пользователи" :has-margin="false" />
       <!-- <div class="d-flex align-items-center justify-space-between"> -->
-      <v-sheet width="280">
+      <!-- <v-sheet width="280">
         <v-select :items="filter.types.items" v-model="filter.types.selected" label="Типы заявок" outlined hide-details>
         </v-select>
-      </v-sheet>
+      </v-sheet> -->
       <v-dialog v-model="newRequestForm.isOpened" width="900">
         <template v-slot:activator="{ on, attrs }">
           <v-btn color="primary" v-bind="attrs" v-on="on" x-large class="ml-4">
-            создать заявку
+            создать пользователя
           </v-btn>
         </template>
 
         <v-card>
           <v-card-title class="text-h5">
-            Новая Заявка
+            Новый пользователь
           </v-card-title>
 
           <v-card-text>
