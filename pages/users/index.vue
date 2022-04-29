@@ -3,8 +3,8 @@
     <div class="d-flex align-items-center justify-space-between mb-5">
       <pages-title text="Пользователи" :has-margin="false" />
       <v-dialog v-model="newRequestForm.isOpened" width="900">
-        <template v-slot:activator="{ on, attrs }">
-          <v-btn color="primary" v-bind="attrs" v-on="on" x-large class="ml-4">
+        <template #activator="{ on, attrs }">
+          <v-btn color="primary" v-bind="attrs" x-large class="ml-4" v-on="on">
             создать пользователя
           </v-btn>
         </template>
@@ -17,15 +17,18 @@
           <v-card-text>
             <v-row>
               <v-col cols="4">
-                <v-select :items="newRequestForm.data.type.items" v-model="newRequestForm.data.type.selected"
+                <v-select
+v-model="newRequestForm.data.type.selected" :items="newRequestForm.data.type.items"
                   label="Тип заявки" outlined hide-details class="mb-0" />
               </v-col>
               <v-col cols="4">
-                <v-select :items="newRequestForm.data.priority.items" v-model="newRequestForm.data.priority.selected"
+                <v-select
+v-model="newRequestForm.data.priority.selected" :items="newRequestForm.data.priority.items"
                   label="Приоритет" outlined hide-details class="mb-0" />
               </v-col>
               <v-col cols="4">
-                <v-autocomplete v-model="newRequestForm.data.zno.selected"
+                <v-autocomplete
+v-model="newRequestForm.data.zno.selected"
                   :items="newRequestForm.data.zno.items" outlined label="ЗНО" clearable class="mb-0"
                   hide-details />
               </v-col>
@@ -33,9 +36,10 @@
 
             <v-row>
               <v-col :cols="newRequestForm.data.type.selected === 'Допоствка карт' ? 8 : 12">
-                <v-autocomplete v-model="institutions.selected" :items="institutions.items" outlined
+                <v-autocomplete
+v-model="institutions.selected" :items="institutions.items" outlined
               label="Образовательное учреждение" clearable :filter="filtering" class="mb-0" hide-details>
-                  <template v-slot:selection="data">
+                  <template #selection="data">
                     <div>
                       <div>
                         <strong>{{ data.item.name }}</strong>
@@ -45,18 +49,16 @@
                       </div>
                     </div>
                   </template>
-                  <template v-slot:item="data">
-                    <template>
-                      <v-list-item-content>
-                        <v-list-item-title>{{ data.item.name }}</v-list-item-title>
-                        <v-list-item-subtitle>{{ data.item.address }}</v-list-item-subtitle>
-                        <v-list-item-subtitle>{{ data.item.id }}</v-list-item-subtitle>
-                      </v-list-item-content>
-                    </template>
+                  <template #item="data">
+                    <v-list-item-content>
+                      <v-list-item-title>{{ data.item.name }}</v-list-item-title>
+                      <v-list-item-subtitle>{{ data.item.address }}</v-list-item-subtitle>
+                      <v-list-item-subtitle>{{ data.item.id }}</v-list-item-subtitle>
+                    </v-list-item-content>
                   </template>
                 </v-autocomplete>
               </v-col>
-              <v-col cols="4" v-if="newRequestForm.data.type.selected === 'Допоствка карт'">
+              <v-col v-if="newRequestForm.data.type.selected === 'Допоствка карт'" cols="4">
                 <v-text-field v-model="newRequestForm.data.cards" type="number" min="1" label="Количество карт" outlined hide-details>
                 </v-text-field>
               </v-col>
@@ -68,16 +70,19 @@
                 </v-text-field>
               </v-col>
               <v-col cols="4">
-                <v-text-field v-model="newRequestForm.data.applicant_phone" label="Телефонный номер заявителя" outlined
+                <v-text-field
+v-model="newRequestForm.data.applicant_phone" label="Телефонный номер заявителя" outlined
                   hide-details></v-text-field>
               </v-col>
               <v-col cols="4">
-                <v-autocomplete v-model="newRequestForm.data.contructor.selected"
+                <v-autocomplete
+v-model="newRequestForm.data.contructor.selected"
                   :items="newRequestForm.data.contructor.items" outlined label="Исполнитель" clearable class="mb-0"
                   hide-details />
               </v-col>
             </v-row>
-            <v-textarea v-model="newRequestForm.data.description" outlined label="Описание" hide-details class="mb-4"
+            <v-textarea
+v-model="newRequestForm.data.description" outlined label="Описание" hide-details class="mb-4"
               rows="1">
             </v-textarea>
             <v-row>
@@ -86,24 +91,28 @@
                 </v-text-field>
               </v-col>
               <v-col cols="4">
-                <v-menu v-model="newRequestForm.data.datePicker" transition="scale-transition" offset-y
+                <v-menu
+v-model="newRequestForm.data.datePicker" transition="scale-transition" offset-y
                   min-width="auto">
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-text-field v-model="computedDateFormattedMomentjs" label="Крайная дата выполнения"
-                      prepend-icon="mdi-calendar" v-bind="attrs" v-on="on" outlined></v-text-field>
+                  <template #activator="{ on, attrs }">
+                    <v-text-field
+v-model="computedDateFormattedMomentjs" label="Крайная дата выполнения"
+                      prepend-icon="mdi-calendar" v-bind="attrs" outlined v-on="on"></v-text-field>
                   </template>
-                  <v-date-picker v-model="newRequestForm.data.date" @input="newRequestForm.data.datePicker = false" locale="ru-RU">
+                  <v-date-picker v-model="newRequestForm.data.date" locale="ru-RU" @input="newRequestForm.data.datePicker = false">
                   </v-date-picker>
                 </v-menu>
               </v-col>
               <v-col cols="4">
-                <v-menu ref="menu" v-model="menu2" :close-on-content-click="false" :nudge-right="40"
+                <v-menu
+ref="menu" v-model="menu2" :close-on-content-click="false" :nudge-right="40"
                   :return-value.sync="time" transition="scale-transition" offset-y max-width="290px" min-width="290px">
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-text-field v-model="time" label="Крайнее время выполнения" prepend-icon="mdi-clock-time-four-outline"
-                      v-bind="attrs" v-on="on" outlined></v-text-field>
+                  <template #activator="{ on, attrs }">
+                    <v-text-field
+v-model="time" label="Крайнее время выполнения" prepend-icon="mdi-clock-time-four-outline"
+                      v-bind="attrs" outlined v-on="on"></v-text-field>
                   </template>
-                  <v-time-picker v-if="menu2" v-model="time" full-width @click:minute="$refs.menu.save(time)" format="24hr">
+                  <v-time-picker v-if="menu2" v-model="time" full-width format="24hr" @click:minute="$refs.menu.save(time)">
                   </v-time-picker>
                 </v-menu>
               </v-col>
@@ -127,155 +136,23 @@
     </div>
 
     <v-data-table :headers="headers" :items="desserts" :items-per-page="5" class="elevation-1">
-      <template #[`item.id`]="{ item }">
-        <v-dialog v-model="item.isInfoOpened" width="1000">
-          <template v-slot:activator="{ on, attrs }">
-            <v-chip class="ma-2" color="red" text-color="white" v-if="item.priority.selected === 'Критический'"
-              v-bind="attrs" v-on="on">
-              {{ item.id }}
-            </v-chip>
-            <v-chip class="ma-2" color="orange" text-color="white" v-if="item.priority.selected === 'Высокий'"
-              v-bind="attrs" v-on="on">
-              {{ item.id }}
-            </v-chip>
-            <v-chip class="ma-2" color="primary" text-color="white" v-if="item.priority.selected === 'Средний'"
-              v-bind="attrs" v-on="on">
-              {{ item.id }}
-            </v-chip>
-            <v-chip class="ma-2" color="green" text-color="white" v-if="item.priority.selected === 'Низкий'"
-              v-bind="attrs" v-on="on">
-              {{ item.id }}
-            </v-chip>
-          </template>
-
-          <v-card>
-            <v-card-title class="text-h5 align-center justify-space-between">
-              <div>Заявка № {{ item.id }}</div>
-              <v-sheet width="200">
-                <v-select :items="item.status.items" v-model="item.status.selected" outlined dense hide-selected
-                  hide-details></v-select>
-              </v-sheet>
-            </v-card-title>
-
-            <v-card-text>
-              <v-row>
-                <v-col cols="4">
-                  <v-select :items="newRequestForm.data.type.items" v-model="newRequestForm.data.type.selected"
-                    label="Тип заявки" outlined hide-details class="mb-0" readonly disabled />
-                </v-col>
-                <v-col cols="4">
-                  <v-select :items="newRequestForm.data.priority.items" v-model="newRequestForm.data.priority.selected"
-                    label="Приоритет" outlined hide-details class="mb-0" readonly disabled />
-                </v-col>
-                <v-col cols="4">
-                  <v-autocomplete v-model="newRequestForm.data.zno.selected"
-                    :items="newRequestForm.data.zno.items" outlined label="ЗНО" clearable class="mb-0"
-                    hide-details readonly disabled />
-                </v-col>
-              </v-row>
-
-              <v-row>
-                <v-col :cols="newRequestForm.data.type.selected === 'Допоствка карт' ? 8 : 12">
-                  <v-autocomplete v-model="institutions.selected" :items="institutions.items" outlined
-                label="Образовательное учреждение" clearable :filter="filtering" class="mb-0" hide-details readonly disabled>
-                    <template v-slot:selection="data">
-                      <div>
-                        <div>
-                          <strong>{{ data.item.name }}</strong>
-                        </div>
-                        <div>
-                          <span>{{ data.item.address }}</span>
-                        </div>
-                      </div>
-                    </template>
-                    <template v-slot:item="data">
-                      <template>
-                        <v-list-item-content>
-                          <v-list-item-title>{{ data.item.name }}</v-list-item-title>
-                          <v-list-item-subtitle>{{ data.item.address }}</v-list-item-subtitle>
-                          <v-list-item-subtitle>{{ data.item.id }}</v-list-item-subtitle>
-                        </v-list-item-content>
-                      </template>
-                    </template>
-                  </v-autocomplete>
-                </v-col>
-                <v-col cols="4" v-if="newRequestForm.data.type.selected === 'Допоствка карт'">
-                  <v-text-field v-model="newRequestForm.data.cards" type="number" min="1" label="Количество карт" outlined hide-details readonly disabled>
-                  </v-text-field>
-                </v-col>
-              </v-row>
-              
-              <v-row class="mb-4">
-                <v-col cols="4">
-                  <v-text-field v-model="newRequestForm.data.applicant_name" label="ФИО заявителя" outlined hide-details readonly disabled>
-                  </v-text-field>
-                </v-col>
-                <v-col cols="4">
-                  <v-text-field v-model="newRequestForm.data.applicant_phone" label="Телефонный номер заявителя" outlined
-                    hide-details readonly disabled></v-text-field>
-                </v-col>
-                <v-col cols="4">
-                  <v-autocomplete v-model="newRequestForm.data.contructor.selected"
-                    :items="newRequestForm.data.contructor.items" outlined label="Исполнитель" clearable class="mb-0"
-                    hide-details readonly disabled />
-                </v-col>
-              </v-row>
-              <v-textarea v-model="newRequestForm.data.description" outlined label="Описание" hide-details class="mb-4"
-                rows="1" readonly disabled>
-              </v-textarea>
-              <v-row>
-                <v-col cols="4">
-                  <v-text-field v-model="newRequestForm.data.incident_id" label="Номер инцидента" outlined hide-details readonly disabled>
-                  </v-text-field>
-                </v-col>
-                <v-col cols="4">
-                  <v-menu v-model="newRequestForm.data.datePicker" transition="scale-transition" offset-y
-                    min-width="auto" readonly disabled>
-                    <template v-slot:activator="{ on, attrs }">
-                      <v-text-field v-model="computedDateFormattedMomentjs" label="Крайная дата выполнения"
-                        prepend-icon="mdi-calendar" v-bind="attrs" v-on="on" outlined readonly disabled></v-text-field>
-                    </template>
-                    <v-date-picker v-model="newRequestForm.data.date" @input="newRequestForm.data.datePicker = false" locale="ru-RU" readonly disabled>
-                    </v-date-picker>
-                  </v-menu>
-                </v-col>
-                <v-col cols="4">
-                  <v-menu ref="menu" v-model="menu2" :close-on-content-click="false" :nudge-right="40"
-                    :return-value.sync="time" transition="scale-transition" offset-y max-width="290px" min-width="290px" readonly disabled>
-                    <template v-slot:activator="{ on, attrs }">
-                      <v-text-field v-model="time" label="Крайнее время выполнения" prepend-icon="mdi-clock-time-four-outline"
-                        v-bind="attrs" v-on="on" outlined readonly disabled></v-text-field>
-                    </template>
-                    <v-time-picker v-if="menu2" v-model="time" full-width @click:minute="$refs.menu.save(time)" format="24hr" readonly disabled>
-                    </v-time-picker>
-                  </v-menu>
-                </v-col>
-              </v-row>
-              <v-textarea v-model="newRequestForm.data.comment" outlined label="Комментарий исполнителя" hide-details class="mb-4"
-                rows="1">
-              </v-textarea>
-            </v-card-text>
-
-            <v-divider></v-divider>
-
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn color="primary" @click="item.isInfoOpened = false">
-                Сохранить
-              </v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
+      <template #[`item.user`]="{ item }">
+        <v-btn
+:to="{ name: 'users-userId', params: {userId: item.user.id} }"
+class="ma-2" color="yellow" text-color="black">
+          {{ item.user.firstname }} {{ item.user.lastname }}
+        </v-btn>
       </template>
       <template #[`item.status`]="{ item }">
         <v-sheet width="130">
-          <v-select :items="item.status.items" v-model="item.status.selected" outlined dense hide-selected hide-details>
+          <v-select v-model="item.status.selected" :items="item.status.items" outlined dense hide-selected hide-details>
           </v-select>
         </v-sheet>
       </template>
       <template #[`item.contractor`]="{ item }">
         <v-sheet width="130">
-          <v-select :items="item.contractor.items" v-model="item.contractor.selected" outlined dense hide-selected
+          <v-select
+v-model="item.contractor.selected" :items="item.contractor.items" outlined dense hide-selected
             hide-details></v-select>
         </v-sheet>
       </template>
@@ -368,10 +245,9 @@
         }
       },
       headers: [{
-          text: 'ID',
+          text: 'ФИО',
           align: 'start',
-          sortable: false,
-          value: 'id',
+          value: 'user',
         },
         {
           text: 'Статуc',
@@ -396,7 +272,11 @@
         // { text: '', value: 'actions', sortable: false },
       ],
       desserts: [{
-          id: 'jkh1kj2h3jkh13',
+          user: {
+            firstname: 'Вася',
+            lastname: 'Пупкин',
+            id: '78в7в7в7в7в77в'
+          },
           isInfoOpened: false,
           priority: {
             selected: 'Средний',
@@ -432,7 +312,11 @@
           ready_date: '05/04/22 08:47:31'
         },
         {
-          id: 'ssdd7d7d7d7',
+          user: {
+            firstname: 'Игорь',
+            lastname: 'Березов',
+            id: 'a8sydd98asd9h'
+          },
           isInfoOpened: false,
           priority: {
             selected: 'Низкий',
