@@ -141,15 +141,15 @@ label="Акт о проведении мероприятий по обучени
         </v-card>
       </v-dialog>
     </div>
-    <v-row class="object__wrap">
-      <v-col cols="5" class="object__col">
-        <div class="map_wrap">
-            <div class="map_in">
+    <v-row class="object-wrap">
+      <v-col cols="5" class="object-col">
+        <div class="map-wrap">
+            <div class="map-in">
                 <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2253.6113835730166!2d37.60293511582563!3d55.60877681055838!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x414ab26274b8e061%3A0xaa0858eccbb527b9!2z0JLQsNGA0YjQsNCy0YHQutC-0LUg0YguLCDQnNC-0YHQutCy0LA!5e0!3m2!1sru!2sru!4v1651518275198!5m2!1sru!2sru" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
         </div>
       </v-col>
-      <v-col cols="7" class="object__col">
+      <v-col cols="7" class="object-col">
         <div v-for="field in fieldsMain" :key="field.index">
           <div class="d-flex align-center justify-space-between">
             <div class="text-button" style="width: 210px">{{ field.title }}</div>
@@ -172,8 +172,8 @@ label="Акт о проведении мероприятий по обучени
         </div>
         <div v-for="field in fieldsDocs" :key="field.index">
           <div class="d-flex align-center justify-space-between">
-            <div class="text-button object__title">{{ field.title }}</div>
-            <a href="#" class="text-subtitle text-right object__value">{{ field.value }}</a>
+            <div class="text-button object-title">{{ field.title }}</div>
+            <a href="#" class="text-subtitle text-right object-value">{{ field.value }}</a>
           </div>
           <v-divider />
         </div>
@@ -201,8 +201,8 @@ label="Акт о проведении мероприятий по обучени
           <v-card-text>
               <div v-for="contact in contacts" :key="contact.index">
                 <div class="d-flex align-center justify-space-between">
-                    <div class="text-button object__title">{{ contact.title }}</div>
-                    <div class="text-subtitle object__value">{{ contact.value }}</div>
+                    <div class="text-button object-title">{{ contact.title }}</div>
+                    <div class="text-subtitle object-value">{{ contact.value }}</div>
                 </div>
                 <v-divider />
             </div>
@@ -214,8 +214,8 @@ label="Акт о проведении мероприятий по обучени
           <v-card-text>
               <div v-for="device in devices" :key="device.index">
                 <div class="d-flex align-center justify-space-between">
-                    <div class="text-button object__title">{{ device.title }}</div>
-                    <div class="text-subtitle object__value">{{ device.value }}</div>
+                    <div class="text-button object-title">{{ device.title }}</div>
+                    <div class="text-subtitle object-value">{{ device.value }}</div>
                 </div>
                 <v-divider />
             </div>
@@ -337,33 +337,40 @@ label="Акт о проведении мероприятий по обучени
 </script>
 
 <style>
-.map_wrap {
+.map-wrap {
     height: 100%;
 }
-.map_in {
+
+.map-in {
     height: 100%;
 }
-.object__title {
+
+.object-title {
     width: 400px;
 }
-.object__value {
+
+.object-value {
     width: calc(100% - 400px - 50px)
 }
 @media all and (max-width: 1919px) {
-    .object__wrap {
+    .object-wrap {
         flex-direction: column;
     }
-    .object__col {
+
+    .object-col {
         flex: 0 0 100%;
         max-width: 100%; 
     }
-    .map_in {
+
+    .map-in {
         height: 600px;
     }
-    .object__title {
+
+    .object-title {
         width: 500px;
     }
-    .object__value {
+
+    .object-value {
         width: calc(100% - 500px - 50px)
     }
 }
