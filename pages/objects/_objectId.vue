@@ -336,7 +336,7 @@ label="Акт о проведении мероприятий по обучени
 
 </script>
 
-<style lang="scss">
+<style>
 .map_wrap {
     height: 100%;
 }
@@ -361,10 +361,10 @@ label="Акт о проведении мероприятий по обучени
         height: 600px;
     }
     .object__title {
-        width: 5    00px;
+        width: 500px;
     }
     .object__value {
-        width: calc(100% - 5    00px - 50px)
+        width: calc(100% - 500px - 50px)
     }
 }
 </style>
