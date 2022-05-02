@@ -16,106 +16,138 @@
 
           <v-card-text>
             <v-row>
-              <v-col cols="4">
-                <v-select
-v-model="newRequestForm.data.type.selected" :items="newRequestForm.data.type.items"
-                  label="Тип заявки" outlined hide-details class="mb-0" />
-              </v-col>
-              <v-col cols="4">
-                <v-select
-v-model="newRequestForm.data.priority.selected" :items="newRequestForm.data.priority.items"
-                  label="Приоритет" outlined hide-details class="mb-0" />
-              </v-col>
-              <v-col cols="4">
-                <v-autocomplete
-v-model="newRequestForm.data.zno.selected"
-                  :items="newRequestForm.data.zno.items" outlined label="ЗНО" clearable class="mb-0"
-                  hide-details />
-              </v-col>
-            </v-row>
-
-            <v-row>
-              <v-col :cols="newRequestForm.data.type.selected === 'Допоствка карт' ? 8 : 12">
-                <v-autocomplete
-v-model="institutions.selected" :items="institutions.items" outlined
-              label="Образовательное учреждение" clearable :filter="filtering" class="mb-0" hide-details>
-                  <template #selection="data">
-                    <div>
-                      <div>
-                        <strong>{{ data.item.name }}</strong>
-                      </div>
-                      <div>
-                        <span>{{ data.item.address }}</span>
-                      </div>
-                    </div>
-                  </template>
-                  <template #item="data">
-                    <v-list-item-content>
-                      <v-list-item-title>{{ data.item.name }}</v-list-item-title>
-                      <v-list-item-subtitle>{{ data.item.address }}</v-list-item-subtitle>
-                      <v-list-item-subtitle>{{ data.item.id }}</v-list-item-subtitle>
-                    </v-list-item-content>
-                  </template>
-                </v-autocomplete>
-              </v-col>
-              <v-col v-if="newRequestForm.data.type.selected === 'Допоствка карт'" cols="4">
-                <v-text-field v-model="newRequestForm.data.cards" type="number" min="1" label="Количество карт" outlined hide-details>
-                </v-text-field>
-              </v-col>
-            </v-row>
-            
-            <v-row class="mb-4">
-              <v-col cols="4">
-                <v-text-field v-model="newRequestForm.data.applicant_name" label="ФИО заявителя" outlined hide-details>
-                </v-text-field>
-              </v-col>
-              <v-col cols="4">
-                <v-text-field
-v-model="newRequestForm.data.applicant_phone" label="Телефонный номер заявителя" outlined
-                  hide-details></v-text-field>
-              </v-col>
-              <v-col cols="4">
-                <v-autocomplete
-v-model="newRequestForm.data.contructor.selected"
-                  :items="newRequestForm.data.contructor.items" outlined label="Исполнитель" clearable class="mb-0"
-                  hide-details />
-              </v-col>
-            </v-row>
-            <v-textarea
-v-model="newRequestForm.data.description" outlined label="Описание" hide-details class="mb-4"
-              rows="1">
-            </v-textarea>
-            <v-row>
-              <v-col cols="4">
-                <v-text-field v-model="newRequestForm.data.incident_id" label="Номер инцидента" outlined hide-details>
-                </v-text-field>
-              </v-col>
-              <v-col cols="4">
-                <v-menu
-v-model="newRequestForm.data.datePicker" transition="scale-transition" offset-y
-                  min-width="auto">
-                  <template #activator="{ on, attrs }">
+                <v-col cols='4'>
                     <v-text-field
-v-model="computedDateFormattedMomentjs" label="Крайная дата выполнения"
-                      prepend-icon="mdi-calendar" v-bind="attrs" outlined v-on="on"></v-text-field>
-                  </template>
-                  <v-date-picker v-model="newRequestForm.data.date" locale="ru-RU" @input="newRequestForm.data.datePicker = false">
-                  </v-date-picker>
-                </v-menu>
-              </v-col>
-              <v-col cols="4">
-                <v-menu
-ref="menu" v-model="menu2" :close-on-content-click="false" :nudge-right="40"
-                  :return-value.sync="time" transition="scale-transition" offset-y max-width="290px" min-width="290px">
-                  <template #activator="{ on, attrs }">
+                        label="Имя"
+                        outlined
+                        hide-details
+                    />
+                </v-col>
+                <v-col cols='4'>
                     <v-text-field
-v-model="time" label="Крайнее время выполнения" prepend-icon="mdi-clock-time-four-outline"
-                      v-bind="attrs" outlined v-on="on"></v-text-field>
-                  </template>
-                  <v-time-picker v-if="menu2" v-model="time" full-width format="24hr" @click:minute="$refs.menu.save(time)">
-                  </v-time-picker>
-                </v-menu>
-              </v-col>
+                        label="Фамилия"
+                        outlined
+                        hide-details
+                    />
+                </v-col>
+                <v-col cols='4'>
+                    <v-text-field
+                        label="Отчество"
+                        outlined
+                        hide-details
+                    />
+                </v-col>
+            </v-row>
+            <v-row>
+                <v-col cols='4'>
+                    <v-text-field
+                        label="Рабочий E-mail"
+                        outlined
+                        hide-details
+                        type="email"
+                    />
+                </v-col>
+                <v-col cols='4'>
+                    <v-text-field
+                        label="Рабочий телефон"
+                        outlined
+                        hide-details
+                        type="tel"
+                    />
+                </v-col>
+                <v-col cols='4'>
+                    <v-text-field
+                        label="Личный телефон"
+                        outlined
+                        hide-details
+                        type="tel"
+                    />
+                </v-col>
+            </v-row>
+            <v-row>
+                <v-col cols='4'>
+                    <v-menu
+                        ref="menu"
+                        v-model="user.menu"
+                        :close-on-content-click="false"
+                        transition="scale-transition"
+                        offset-y
+                        min-width="auto"
+                        >
+                        <template #activator="{ on, attrs }">
+                            <v-text-field
+                            v-model="user.date"
+                            label="Дата рождения"
+                            prepend-icon="mdi-calendar"
+                            readonly
+                            v-bind="attrs"
+                            outlined
+                            hide-details
+                            v-on="on"
+                            ></v-text-field>
+                        </template>
+                        <v-date-picker
+                            v-model="user.date"
+                            :active-picker.sync="user.activePicker"
+                            :max="(new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)"
+                            min="1950-01-01"
+                            @change="save"
+                        ></v-date-picker>
+                        </v-menu>
+                </v-col>
+                <v-col cols='4'>
+                    <v-select
+                        :items="['Мужской', 'Женский']"
+                        label="Пол"
+                        outlined
+                        hide-details
+                    ></v-select>
+                </v-col>
+                <v-col cols='4'>
+                    <v-autocomplete
+                        v-model="city.selected"
+                        :items="city.items"
+                        outlined
+                        label="Город"
+                        item-text="city"
+                        item-value="city"
+                        hide-details
+                    >
+                        <template #selection="data">
+                            {{ data.item.city }}
+                        </template>
+                        <template #item="data">
+                            {{ data.item.city }} {{ data.item.region }}
+                        </template>
+                    </v-autocomplete>
+                </v-col>
+            </v-row>
+            <v-row>
+                <v-col cols='6'>
+                    <v-text-field
+                        label="Должность"
+                        outlined
+                        hide-details
+                    />
+                </v-col>
+                <v-col cols='6'>
+                    <v-select
+                        :items="['СВАО', 'ЦАО', 'ЮАО']"
+                        label="Зона ответственности"
+                        outlined
+                        hide-details
+                    ></v-select>
+                </v-col>
+            </v-row>
+            <v-row>
+                <v-col cols='12'>
+                    <v-textarea
+                        label="Адрес места работы"
+                        outlined
+                        hide-details
+                        rows="1"
+                    />
+                </v-col>
             </v-row>
             <!-- <v-textarea v-model="newRequestForm.data.comment" outlined label="Комментарий исполнителя" hide-details class="mb-4"
               rows="1">
@@ -375,21 +407,68 @@ v-model="item.contractor.selected" :items="item.contractor.items" outlined dense
             name: "Школа №97 им. К. Д. Овчинникова города Донецк"
           }
         ]
-      }
-    }),
-    computed: {
-      computedDateFormattedMomentjs: {
-        get() {
-          console.log(this.newRequestForm.data.date);
-          return this.newRequestForm.data.date ? this.$moment(this.newRequestForm.data.date).format('DD/MM/YY') : ''
+      },
+      user: {
+            activePicker: null,
+            date: null,
+            menu: false,
         },
-        set(newDate) {
-          const date = this.$moment(newDate, 'DD/MM/YY', true);
-          if (date.isValid()) {
-            console.log('newDate', this.$moment(date).format('YYYY-MM-DD'));
-            this.newRequestForm.data.date = this.$moment(date).format('YYYY-MM-DD');
-          }
+        city: {
+            selected: {
+                "region": "Тува (Тувинская Респ.)",
+                "city": "Кызыл"
+            },
+            items: [
+                {
+                    "region": "Тува (Тувинская Респ.)",
+                    "city": "Бай Хаак"
+                },
+                {
+                    "region": "Тува (Тувинская Респ.)",
+                    "city": "Кызыл"
+                },
+                {
+                    "region": "Тува (Тувинская Респ.)",
+                    "city": "Самагалтай"
+                },
+                {
+                    "region": "Тува (Тувинская Респ.)",
+                    "city": "Сарыг-Сеп"
+                },
+                {
+                    "region": "Тува (Тувинская Респ.)",
+                    "city": "Суть-Холь"
+                },
+                {
+                    "region": "Тува (Тувинская Респ.)",
+                    "city": "Тоора-Хем"
+                },
+                {
+                    "region": "Тува (Тувинская Респ.)",
+                    "city": "Туран"
+                },
+                {
+                    "region": "Тува (Тувинская Респ.)",
+                    "city": "Тээли"
+                },
+                {
+                    "region": "Тува (Тувинская Респ.)",
+                    "city": "Хову-Аксы"
+                },
+                {
+                    "region": "Тува (Тувинская Респ.)",
+                    "city": "Чадан"
+                },
+                {
+                    "region": "Тува (Тувинская Респ.)",
+                    "city": "Шагонар"
+                },
+            ]
         }
+    }),
+    watch: {
+      menu (val) {
+        val && setTimeout(() => (this.activePicker = 'YEAR'))
       },
     },
     methods: {
@@ -397,8 +476,10 @@ v-model="item.contractor.selected" :items="item.contractor.items" outlined dense
         if (!`${JSON.stringify(item)}`.toLocaleLowerCase().includes(queryText.toLocaleLowerCase())) return false;
         return item;
       },
+      save (date) {
+        this.$refs.menu.save(date)
+      },
     }
   }
-  // Сделать чтоб нелзья было поставить 0 в Каоличество карт
-  // Сделать фильтр заявок
+  // TODO Сделать Удаление пользователя
 </script>

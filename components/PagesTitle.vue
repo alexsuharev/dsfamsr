@@ -1,5 +1,5 @@
 <template>
-    <div class="text-h4" :class="{'mb-5': hasMargin}">{{ text }}</div>
+    <div class="text-h5" :class="{'mb-5': hasMargin}">{{ text }}</div>
 </template>
 
 <script>
