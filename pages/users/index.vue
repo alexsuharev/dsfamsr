@@ -230,7 +230,7 @@ v-model="item.contractor.selected" :items="item.contractor.items" outlined dense
             items: [
               'Сервисное обслуживание',
               'Выезды',
-              'Допоствка карт'
+              'Допостaвка карт'
             ]
           },
           contructor: {
@@ -272,7 +272,7 @@ v-model="item.contractor.selected" :items="item.contractor.items" outlined dense
             'Все',
             'Сервисное обслуживание',
             'Выезды',
-            'Допоствка карт'
+            'Допостaвка карт'
           ]
         }
       },
