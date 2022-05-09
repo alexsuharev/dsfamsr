@@ -101,7 +101,7 @@
     }),
     methods: {
       async logout() {
-        await this.$fire.auth.signOut();
+        await this.$auth.logout();
       }
     }
   }

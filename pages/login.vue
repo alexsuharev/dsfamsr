@@ -17,7 +17,7 @@
 
 <script>
   export default {
-    name: "AuthPage",
+    name: "AuthPageLogin",
     layout: 'auth',
     data: () => ({
       isLoading: false,
@@ -25,17 +25,27 @@
       password: ''
     }),
     methods: {
-      async login() {
+      login() {
         this.isLoading = true;
-        await this.$fire.auth.signInWithEmailAndPassword(this.email, this.password).then((user) => {
-          this.$router.push({
-            name: 'index'
-          });
-          this.$toast.success(`Привет, ${user.user.email}`);
-        }).catch((error) => {
-          this.$toast.error(error.message);
-        });
-        this.isLoading = false;
+        // await this.$fire.auth.signInWithEmailAndPassword(this.email, this.password).then((user) => {
+        //   this.$router.push({
+        //     name: 'index'
+        //   });
+        //   this.$toast.success(`Привет, ${user.user.email}`);
+        // }).catch((error) => {
+        //   this.$toast.error(error.message);
+        // });
+        this.$auth.loginWith('local', {data: {
+          email: this.email,
+          password: this.password
+        }}).then(result => {
+          console.log(result);
+          this.isLoading = false;
+          console.log(this.$auth.fetchUser())
+        }).catch(error => {
+          console.log(error);
+          this.isLoading = false;
+        })
       },
     }
   }

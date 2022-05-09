@@ -45,28 +45,50 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
-    '@nuxtjs/firebase',
+    '@nuxtjs/auth-next',
+    // '@nuxtjs/firebase',
     '@nuxtjs/toast',
   ],
 
-  firebase: {
-    config: {
-      apiKey: "AIzaSyAs5OL_iiOSkV7k7TaQX4j7_ufOpjarx4w",
-      authDomain: "dsfamsr.firebaseapp.com",
-      projectId: "dsfamsr",
-      storageBucket: "dsfamsr.appspot.com",
-      messagingSenderId: "126385654107",
-      appId: "1:126385654107:web:24d1946abb60bc1416b27e",
-      measurementId: "G-CGMH0MZB2J"
-    },
-    services: {
-      auth: {
-        persistence: 'local', // default
-        initialize: {
-          onAuthStateChangedAction: 'onAuthStateChangedAction',
-          subscribeManually: false
+  // firebase: {
+  //   config: {
+  //     apiKey: "AIzaSyAs5OL_iiOSkV7k7TaQX4j7_ufOpjarx4w",
+  //     authDomain: "dsfamsr.firebaseapp.com",
+  //     projectId: "dsfamsr",
+  //     storageBucket: "dsfamsr.appspot.com",
+  //     messagingSenderId: "126385654107",
+  //     appId: "1:126385654107:web:24d1946abb60bc1416b27e",
+  //     measurementId: "G-CGMH0MZB2J"
+  //   },
+  //   services: {
+  //     auth: {
+  //       persistence: 'local', // default
+  //       initialize: {
+  //         onAuthStateChangedAction: 'onAuthStateChangedAction',
+  //         subscribeManually: false
+  //       },
+  //       ssr: false
+  //     }
+  //   }
+  // },
+  auth: {
+    strategies: {
+      local: {
+        token: {
+          property: 'token',
+          global: true,
+          required: true,
+          type: 'Bearer'
         },
-        ssr: false
+        user: {
+          property: 'user',
+          // autoFetch: true
+        },
+        endpoints: {
+          login: { url: 'http://127.0.0.1:8000/api/login', method: 'post' },
+          logout: { url: 'http://127.0.0.1:8000/api/logout', method: 'post' },
+          user: { url: 'http://127.0.0.1:8000/api/get-user', method: 'get' }
+        }
       }
     }
   },
