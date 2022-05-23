@@ -313,7 +313,7 @@
     data: () => ({
       newObjectForm: {
         isOpened: false,
-        IsProgressed: false,
+        isProgressed: false,
         data: {
           identificator: 'identificator',
           type: {
@@ -387,13 +387,14 @@
     methods: {
       ...mapActions('institutes', ['setInstitutes', 'createInstitute']),
       createNewInstitute() {
-        this.newObjectForm.IsProgressed = true;
+        this.newObjectForm.isProgressed = true;
         this.createInstitute(this.newObjectForm.data).then(result => {
-          this.newObjectForm.IsProgressed = false;
+          this.newObjectForm.isProgressed = false;
+          this.newObjectForm.isOpened = false;
           console.log('this.createInstitute', result);
         }).catch(error => {
           console.log(error);
-          this.newObjectForm.IsProgressed = false;
+          this.newObjectForm.isProgressed = false;
         })
       }
     }

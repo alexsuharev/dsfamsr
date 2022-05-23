@@ -48,6 +48,9 @@ import { mapGetters, mapActions } from 'vuex';
       ...mapGetters('users', ['getUsers']),
     },
     data: () => ({
+      newUser: {
+        isOpened: false,
+      },
       headers: [
         {
           text: 'ФИО',
