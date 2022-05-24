@@ -18,6 +18,7 @@ export const actions = {
         });
     },
     createItem(context, data) {
+        console.log('createItem', data)
         return new Promise((resolve, reject) => {
             this.$axios.$post('http://localhost:8000/api/items', data).then(result => {
                 console.log('items.createItem', result, data);
@@ -37,8 +38,17 @@ export const actions = {
                 resolve(result);
             }).catch(error => {
                 reject(error);
-            })
-        })
+            });
+        });
+    },
+    changeStatus(context, data) {
+        return new Promise((resolve, reject) => {
+            this.$axios.$post(`http://localhost:8000/api/items/change-status`, data).then(result => {
+                resolve(result);
+            }).catch(error => {
+                reject(error);
+            });
+        });
     }
 }
 

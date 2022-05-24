@@ -6,19 +6,17 @@
       flat
     >
       <v-container class="py-0 fill-height">
-        <v-avatar
-          class="mr-10"
-          color="grey darken-1"
-          size="32"
-        ></v-avatar>
-
-        <v-btn>
-          asjkdhajkhsd
-        </v-btn>
+        <nuxt-link :to="{name: 'users-userId', params: {userId: $auth.user.id}}" class="d-flex align-center">
+          <v-avatar size="36px" color="primary" class="mr-4">
+            <img v-if="$auth.user.avatar" alt="Avatar" :src="$auth.user.avatar">
+            <v-icon v-else color="#fff">mdi-account</v-icon>
+          </v-avatar>
+          <strong>{{ $auth.user.name }}</strong>
+        </nuxt-link>
 
         <v-spacer></v-spacer>
 
-        <v-responsive max-width="260">
+        <!-- <v-responsive max-width="260">
           <v-text-field
             dense
             flat
@@ -26,7 +24,7 @@
             rounded
             solo-inverted
           ></v-text-field>
-        </v-responsive>
+        </v-responsive> -->
       </v-container>
     </v-app-bar>
 

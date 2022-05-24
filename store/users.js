@@ -17,6 +17,18 @@ export const state = () => ({
             console.log(error);
         });
     },
+    getSingleUser(context, userId) {
+      // console.log('users.getSingleuser', userId)
+      return new Promise((resolve, reject) => {
+          this.$axios.$get(`http://localhost:8000/api/users/${userId}`).then(result => {
+              console.log('users.getSingleuser', result);
+              // context.dispatch('setData');
+              resolve(result);
+          }).catch(error => {
+              reject(error);
+          });
+      });
+  },
   }
   
   export const getters = {

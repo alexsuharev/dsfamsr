@@ -71,6 +71,9 @@ export default {
   //     }
   //   }
   // },
+  moment: {
+    locales: ['ru']
+  },
   auth: {
     strategies: {
       local: {

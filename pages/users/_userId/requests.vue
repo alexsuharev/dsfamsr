@@ -1,9 +1,9 @@
 <template>
-    <nuxt-child />
+    <div>tratata</div>
 </template>
 
 <script>
 export default {
-    name: "RequestsPage",
+    name: 'UserRequests'
 }
 </script>

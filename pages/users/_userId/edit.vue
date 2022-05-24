@@ -1,6 +1,6 @@
 <template>
     <v-row>
-        <v-col cols="3">
+        <v-col v-if="user" cols="3">
             <div class="avatar_wrap">
                 <v-avatar
                     tile
@@ -12,29 +12,16 @@
                     <span class="white--text text-h5">CJ</span>
                 </v-avatar>
             </div>
-            <v-btn color="primary" width="100%" class="mt-4" outlined>
+            <v-btn color="primary" width="100%" class="mt-4" outlined @click="updateUser">
                 Сохранить
             </v-btn>
         </v-col>
-        <v-col cols="9">
+        <v-col v-if="user" cols="9">
             <v-row>
-                <v-col cols='4'>
+                <v-col cols='12'>
                     <v-text-field
-                        label="Имя"
-                        outlined
-                        hide-details
-                    />
-                </v-col>
-                <v-col cols='4'>
-                    <v-text-field
-                        label="Фамилия"
-                        outlined
-                        hide-details
-                    />
-                </v-col>
-                <v-col cols='4'>
-                    <v-text-field
-                        label="Отчество"
+                        v-model="user.name"
+                        label="ФИО"
                         outlined
                         hide-details
                     />
@@ -43,6 +30,7 @@
             <v-row>
                 <v-col cols='4'>
                     <v-text-field
+                        v-model="user.email"
                         label="Рабочий E-mail"
                         outlined
                         hide-details
@@ -51,6 +39,7 @@
                 </v-col>
                 <v-col cols='4'>
                     <v-text-field
+                        v-model="user.phone_work"
                         label="Рабочий телефон"
                         outlined
                         hide-details
@@ -59,6 +48,7 @@
                 </v-col>
                 <v-col cols='4'>
                     <v-text-field
+                        v-model="user.phone_personal"
                         label="Личный телефон"
                         outlined
                         hide-details
@@ -68,37 +58,17 @@
             </v-row>
             <v-row>
                 <v-col cols='4'>
-                    <v-menu
-                        ref="menu"
-                        v-model="user.menu"
-                        :close-on-content-click="false"
-                        transition="scale-transition"
-                        offset-y
-                        min-width="auto"
-                        >
-                        <template #activator="{ on, attrs }">
-                            <v-text-field
-                            v-model="user.date"
-                            label="Дата рождения"
-                            prepend-icon="mdi-calendar"
-                            readonly
-                            v-bind="attrs"
-                            outlined
-                            hide-details
-                            v-on="on"
-                            ></v-text-field>
-                        </template>
-                        <v-date-picker
-                            v-model="user.date"
-                            :active-picker.sync="user.activePicker"
-                            :max="(new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)"
-                            min="1950-01-01"
-                            @change="save"
-                        ></v-date-picker>
-                        </v-menu>
+                    <v-text-field
+                        v-model="user.birth_date"
+                        label="Дата рождения"
+                        outlined
+                        hide-details
+                        type="tel"
+                    />
                 </v-col>
                 <v-col cols='4'>
                     <v-select
+                        v-model="user.sex"
                         :items="['Мужской', 'Женский']"
                         label="Пол"
                         outlined
@@ -107,7 +77,7 @@
                 </v-col>
                 <v-col cols='4'>
                     <v-autocomplete
-                        v-model="city.selected"
+                        v-model="user.city"
                         :items="city.items"
                         outlined
                         label="Город"
@@ -127,6 +97,7 @@
             <v-row>
                 <v-col cols='6'>
                     <v-text-field
+                        v-model="user.position"
                         label="Должность"
                         outlined
                         hide-details
@@ -134,6 +105,7 @@
                 </v-col>
                 <v-col cols='6'>
                     <v-select
+                        v-model="user.resp"
                         :items="['СВАО', 'ЦАО', 'ЮАО']"
                         label="Зона ответственности"
                         outlined
@@ -144,6 +116,7 @@
             <v-row>
                 <v-col cols='12'>
                     <v-textarea
+                        v-model="user.address"
                         label="Адрес места работы"
                         outlined
                         hide-details
@@ -156,14 +129,10 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 export default {
     name: 'UserPage',
     data: () => ({
-        user: {
-            activePicker: null,
-            date: null,
-            menu: false,
-        },
         city: {
             selected: {
                 "region": "Тува (Тувинская Респ.)",
@@ -215,26 +184,34 @@ export default {
                     "city": "Шагонар"
                 },
             ]
-        }
+        },
+        user: null
     }),
     computed: {
         userId() {
             return this.$route.params.userId;
         },
-        menu() {
-            return this.user.menu;
-        }
     },
-    watch: {
-      menu (val) {
-        val && setTimeout(() => (this.activePicker = 'YEAR'))
-      },
+    mounted() {
+        this.getSingleUser(this.userId).then(result => {
+            this.user = result;
+        }).catch(error => {
+            console.log(error);
+        })
     },
     methods: {
-      save (date) {
+        ...mapActions('users', ['getSingleUser']),
+        save (date) {
         this.$refs.menu.save(date)
       },
-    },
+      updateUser() {
+        this.$axios.$patch(`http://localhost:8000/api/users/${this.user.id}`, this.user).then(result => {
+          this.$router.push({name: 'users-userId', params: {userId: this.user.id}})
+        }).catch(error => {
+          console.log(error)
+        });
+      }
+    }
 }
 </script>
 

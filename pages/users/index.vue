@@ -14,15 +14,48 @@
           <v-form @submit.prevent="createNewUser">
             <v-card-title>
               <div class="d-flex align-center justify-space-between" style="width: 100%">
-                  <div class="text-h5">
-                    Новый пользователь
-                  </div>
+                <div class="text-h5">
+                  Новый пользователь
                 </div>
+              </div>
               
             </v-card-title>
-
+              
             <v-card-text>
+              <v-text-field
+                v-model="newUser.name"
+                label="ФИО"
+                hide-details
+                outlined
+                class="mb-4"
+                required
+              />
+              <v-text-field
+                v-model="newUser.email"
+                label="Email"
+                type="email"
+                hide-details
+                outlined
+                class="mb-4"
+                required
+              />
+              <v-text-field
+                v-model="newUser.password"
+                label="Пароль"
+                hide-details
+                outlined
+                class="mb-4"
+                required
+              />
             </v-card-text>
+            <v-divider></v-divider>
+
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="primary" type="submit">
+                Создать
+              </v-btn>
+            </v-card-actions>
           </v-form>
         </v-card>
       </v-dialog>
@@ -50,6 +83,9 @@ import { mapGetters, mapActions } from 'vuex';
     data: () => ({
       newUser: {
         isOpened: false,
+        name: '',
+        email: '',
+        password: ''
       },
       headers: [
         {
@@ -60,6 +96,10 @@ import { mapGetters, mapActions } from 'vuex';
         {
           text: 'Email',
           value: 'email'
+        },
+        {
+          text: 'Рабочий Телефон',
+          value: 'phone_work'
         },
         // { text: '', value: 'actions', sortable: false },
       ],
@@ -76,6 +116,13 @@ import { mapGetters, mapActions } from 'vuex';
       save (date) {
         this.$refs.menu.save(date)
       },
+      createNewUser() {
+        this.$axios.$post(`http://localhost:8000/api/users`, this.newUser).then(response => {
+          console.log(response);
+        }).catch(error => {
+          console.log(error);
+        });
+      }
     }
   }
   // TODO Сделать Удаление пользователя
