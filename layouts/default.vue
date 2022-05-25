@@ -75,6 +75,7 @@
 </template>
 
 <script>
+  import { mapActions } from 'vuex';
   export default {
     name: "DefaultLayout",
     data: () => ({
@@ -97,7 +98,15 @@
         }
       ]
     }),
+    created() {
+      this.setData();
+      this.setInstitutes();
+      this.setUsers();
+    },
     methods: {
+      ...mapActions('items', ['setData']),
+      ...mapActions('institutes', ['setInstitutes']),
+      ...mapActions('users', ['setUsers']),
       async logout() {
         await this.$auth.logout();
       }
