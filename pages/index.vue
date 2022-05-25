@@ -121,7 +121,7 @@ export default {
   methods: {
     ...mapActions('items', ['setData']),
     weekReport() {
-      this.$axios.$get(`http://localhost:8000/api/week-report`, {
+      this.$axios.$get(`http://dsfamsr.ru/api/week-report`, {
         responseType: 'blob',
       }).then((response) => {
         console.log(this.$axios.defaults.headers);

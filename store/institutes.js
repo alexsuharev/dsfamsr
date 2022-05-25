@@ -10,7 +10,7 @@ export const mutations = {
 
 export const actions = {
     setInstitutes(context) {
-        this.$axios.$get('http://localhost:8000/api/institutes').then(result => {
+        this.$axios.$get('http://dsfamsr.ru/api/institutes').then(result => {
             console.log('institutes.setInstitutes', result);
             context.commit('setInstitutes', result);
         }).catch(error => {
@@ -19,7 +19,7 @@ export const actions = {
     },
     createInstitute(context, data) {
         return new Promise((resolve, reject) => {
-            this.$axios.$post('http://localhost:8000/api/institutes', data).then(result => {
+            this.$axios.$post('http://dsfamsr.ru/api/institutes', data).then(result => {
                 context.dispatch('setInstitutes');
                 resolve(result);
             }).catch(error => {
@@ -29,7 +29,7 @@ export const actions = {
     },
     getSingleInstitute(context, instituteId) {
         return new Promise((resolve, reject) => {
-            this.$axios.$get(`http://localhost:8000/api/institutes/${instituteId}`).then(result => {
+            this.$axios.$get(`http://dsfamsr.ru/api/institutes/${instituteId}`).then(result => {
                 // context.dispatch('setInstitutes');
                 resolve(result);
             }).catch(error => {
@@ -39,7 +39,7 @@ export const actions = {
     },
     patchInstitute(context, data) {
         return new Promise((resolve, reject) => {
-            this.$axios.$patch(`http://localhost:8000/api/institutes/${data.id}`, data).then(result => {
+            this.$axios.$patch(`http://dsfamsr.ru/api/institutes/${data.id}`, data).then(result => {
                 resolve(result);
             }).catch(error => {
                 reject(error);
@@ -48,7 +48,7 @@ export const actions = {
     },
     createDevice(context, data) {
         return new Promise((resolve, reject) => {
-            this.$axios.$post('http://localhost:8000/api/devices', data).then(result => {
+            this.$axios.$post('http://dsfamsr.ru/api/devices', data).then(result => {
                 console.log('createDevice', result);
                 resolve(result);
             }).catch(error => {
@@ -58,7 +58,7 @@ export const actions = {
     },
     saveDevice(context, data) {
         return new Promise((resolve, reject) => {
-            this.$axios.$patch(`http://localhost:8000/api/devices/${data.id}`, data).then(result => {
+            this.$axios.$patch(`http://dsfamsr.ru/api/devices/${data.id}`, data).then(result => {
                 resolve(result);
             }).catch(error => {
                 reject(error);
@@ -67,7 +67,7 @@ export const actions = {
     },
     deleteDevice(context, data) {
         return new Promise((resolve, reject) => {
-            this.$axios.$delete(`http://localhost:8000/api/devices/${data.id}`).then(result => {
+            this.$axios.$delete(`http://dsfamsr.ru/api/devices/${data.id}`).then(result => {
                 resolve(result);
             }).catch(error => {
                 reject(error);

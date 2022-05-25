@@ -363,7 +363,7 @@ v-if="!item"
         })
       },
       addComment() {
-        this.$axios.$post(`http://localhost:8000/api/items/add-comment`, {
+        this.$axios.$post(`http://dsfamsr.ru/api/items/add-comment`, {
           comment: this.comment,
           id: this.itemId
         }).then(result => {
@@ -381,7 +381,7 @@ v-if="!item"
       },
       onFormSubmit() {
         this.itemogressed = true;
-        this.$axios.$patch(`http://localhost:8000/api/items/${this.item.id}`, this.item).then(result => {
+        this.$axios.$patch(`http://dsfamsr.ru/api/items/${this.item.id}`, this.item).then(result => {
           console.log('onFormSubmit', result);
           this.result = result;
           this.newRequestForm.isProgressed = false;
