@@ -91,9 +91,9 @@ export default {
           // autoFetch: true
         },
         endpoints: {
-          login: { url: 'http://127.0.0.1:8000/api/login', method: 'post' },
-          logout: { url: 'http://127.0.0.1:8000/api/logout', method: 'post' },
-          user: { url: 'http://127.0.0.1:8000/api/get-user', method: 'get' }
+          login: { url: 'http://dsfamsr.ru/api/login', method: 'post' },
+          logout: { url: 'http://dsfamsr.ru/api/logout', method: 'post' },
+          user: { url: 'http://dsfamsr.ru/api/get-user', method: 'get' }
         }
       }
     }

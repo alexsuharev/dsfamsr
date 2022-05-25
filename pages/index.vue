@@ -2,7 +2,7 @@
   <div class="wrapper">
     <div class="d-flex align-items-center justify-space-between mb-5">
       <pages-title text="Заявки за неделю" />
-      <v-form target="downloadframe" method="POST" action="http://localhost:8000/api/week-report">
+      <v-form target="downloadframe" method="POST" action="http://dsfamsr.ru/api/week-report">
         <v-btn color="primary" type="submit">
           Скачать отчет
         </v-btn>
