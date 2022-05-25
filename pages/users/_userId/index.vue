@@ -17,6 +17,9 @@
             <v-btn color="primary" width="100%" class="mt-4" outlined :to="{ name: 'users-userId-edit' }">
                 Редактировать
             </v-btn>
+            <v-btn color="primary" width="100%" class="mt-4" outlined :to="{name: 'users-userId-requests', params: {userId: user.id}}">
+                Заявки
+            </v-btn>
         </v-col>
         <v-col v-if="user" cols="7">
             <div v-if="user.name" class="d-flex align-center justify-space-between">

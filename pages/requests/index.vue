@@ -156,7 +156,7 @@ v-if="menu2" v-model="time" full-width format="24hr"
         </v-card>
       </v-dialog>
     </div>
-      <v-data-table :headers="headers" :items="getItems" :items-per-page="5" class="elevation-1">
+    <v-data-table :headers="headers" :items="getItems" :items-per-page="5" class="elevation-1">
       <template #[`item.id`]="{ item }">
         <v-btn
 :to="{ name: 'requests-itemId', params: {itemId: item.id} }"
