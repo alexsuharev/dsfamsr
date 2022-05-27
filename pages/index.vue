@@ -2,25 +2,43 @@
   <div class="wrapper">
     <div class="d-flex align-items-center justify-space-between mb-5">
       <pages-title text="Заявки за неделю" />
-      <v-form target="downloadframe" method="POST" action="http://dsfamsr.ru/api/week-report">
+      <v-form target="downloadframe" method="POST" action="http://dsfamsr.ru/api/report/7">
         <v-btn color="primary" type="submit">
           Скачать отчет
         </v-btn>
       </v-form>
     </div>
     <LineChart ref="doughnutRef" :chart-data="weekData" :options="options" />
+    <div class="d-flex align-items-center justify-space-between mb-5 mt-15">
+      <pages-title text="Заявки за Месяц" />
+      <v-form target="downloadframe" method="POST" action="http://dsfamsr.ru/api/report/30">
+        <v-btn color="primary" type="submit">
+          Скачать отчет
+        </v-btn>
+      </v-form>
+    </div>
+    <LineChart ref="doughnutRef" :chart-data="monthData" :options="options" />
+    <div class="d-flex align-items-center justify-space-between mb-5 mt-15">
+      <pages-title text="Заявки за Год" />
+      <v-form target="downloadframe" method="POST" action="http://dsfamsr.ru/api/report/365">
+        <v-btn color="primary" type="submit">
+          Скачать отчет
+        </v-btn>
+      </v-form>
+    </div>
+    <BarChart ref="doughnutRef" :chart-data="yearData" :options="options" />
   </div>
 </template>
 
 <script>
-import { LineChart } from 'vue-chart-3';
+import { LineChart, BarChart } from 'vue-chart-3';
 import { mapGetters, mapActions } from 'vuex';
-import fileDownload from 'js-file-download';
 export default {
   name: "IndexPage",
   components: {
     PagesTitle: () => import('~/components/PagesTitle.vue'),
-    LineChart
+    LineChart,
+    BarChart
   },
   computed: {
     ...mapGetters('items', ['getItems']),
@@ -113,6 +131,46 @@ export default {
           }
         ]
       }
+    },
+    monthData() {
+      return {
+        labels: this.$moment.monthsShort(),
+        datasets: [
+          {
+            label: 'Созданные',
+            data: Array.from({length: 30}, () => Math.floor(Math.random() * 40)),
+            borderColor: '#77CEFF',
+            backgroundColor: '#77CEFF', 
+          },
+          {
+            label: 'Завершенные',
+            data: Array.from({length: 30}, () => Math.floor(Math.random() * 40)),
+            borderColor: 'orange',
+            backgroundColor: 'orange',
+          }
+        ]
+      }
+    },
+    yearData() {
+      return {
+        labels: Array.from({length: 365}, () => {
+          return '-';
+        }),
+        datasets: [
+          {
+            label: 'Созданные',
+            data: Array.from({length: 365}, () => Math.floor(Math.random() * 40)),
+            borderColor: '#77CEFF',
+            backgroundColor: '#77CEFF', 
+          },
+          {
+            label: 'Завершенные',
+            data: Array.from({length: 365}, () => Math.floor(Math.random() * 40)),
+            borderColor: 'orange',
+            backgroundColor: 'orange',
+          }
+        ]
+      }
     }
   },
   beforeMount() {
@@ -120,16 +178,6 @@ export default {
   },
   methods: {
     ...mapActions('items', ['setData']),
-    weekReport() {
-      this.$axios.$get(`http://dsfamsr.ru/api/week-report`, {
-        responseType: 'blob',
-      }).then((response) => {
-        console.log(this.$axios.defaults.headers);
-        fileDownload(response.data);
-      }).catch(error => {
-        console.log(error);
-      })
-    },
   }
 }
 </script>

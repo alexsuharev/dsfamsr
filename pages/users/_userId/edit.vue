@@ -205,7 +205,7 @@ export default {
         this.$refs.menu.save(date)
       },
       updateUser() {
-        this.$axios.$patch(`http://dsfamsr.ru/api/users/${this.user.id}`, this.user).then(result => {
+        this.$axios.$patch(`/users/${this.user.id}`, this.user).then(result => {
           this.$router.push({name: 'users-userId', params: {userId: this.user.id}})
         }).catch(error => {
           console.log(error)

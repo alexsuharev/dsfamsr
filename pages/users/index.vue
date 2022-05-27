@@ -117,7 +117,7 @@ import { mapGetters, mapActions } from 'vuex';
         this.$refs.menu.save(date)
       },
       createNewUser() {
-        this.$axios.$post(`http://dsfamsr.ru/api/users`, this.newUser).then(response => {
+        this.$axios.$post(`/users`, this.newUser).then(response => {
           console.log(response);
         }).catch(error => {
           console.log(error);

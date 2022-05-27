@@ -10,7 +10,7 @@ export const state = () => ({
   
   export const actions = {
     setUsers(context) {
-        this.$axios.$get('http://dsfamsr.ru/api/users').then(result => {
+        this.$axios.$get('/users').then(result => {
             console.log('users.setUsers', result);
             context.commit('setUsers', result);
         }).catch(error => {
@@ -20,7 +20,7 @@ export const state = () => ({
     getSingleUser(context, userId) {
       // console.log('users.getSingleuser', userId)
       return new Promise((resolve, reject) => {
-          this.$axios.$get(`http://dsfamsr.ru/api/users/${userId}`).then(result => {
+          this.$axios.$get(`/users/${userId}`).then(result => {
               console.log('users.getSingleuser', result);
               // context.dispatch('setData');
               resolve(result);
@@ -32,7 +32,7 @@ export const state = () => ({
     getUsersItems(context, userId) {
       // console.log('users.getSingleuser', userId)
       return new Promise((resolve, reject) => {
-          this.$axios.$get(`http://dsfamsr.ru/api/users/${userId}/items`).then(result => {
+          this.$axios.$get(`/users/${userId}/items`).then(result => {
               console.log('users.getUsersItems', result);
               // context.dispatch('setData');
               resolve(result);

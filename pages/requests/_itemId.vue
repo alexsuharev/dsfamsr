@@ -239,20 +239,50 @@ v-if="menu2" v-model="item.expires_at_time" full-width format="24hr"
       </div>
       <v-divider v-if="item.comment" />
     </div>
-    <v-card v-if="item" class="mt-4">
-      <v-form @submit.prevent="addComment">
-        <v-card-text>
-          <v-textarea v-model="comment" outlined label="Комментарий исполнителя" hide-details rows="1" />
-        </v-card-text>
-        <v-divider></v-divider>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="primary" type="submit">
-            Добавить
-          </v-btn>
-        </v-card-actions>
-      </v-form>
-    </v-card>
+    <v-row v-if="item">
+      <v-col cols="6">
+        <v-card class="mt-4">
+          <v-card-title>
+            Комментарий
+          </v-card-title>
+          <v-form @submit.prevent="addComment">
+            <v-card-text>
+              <v-textarea v-model="comment" outlined label="Комментарий исполнителя" hide-details rows="10" />
+            </v-card-text>
+            <v-divider></v-divider>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="primary" type="submit">
+                Добавить
+              </v-btn>
+            </v-card-actions>
+          </v-form>
+        </v-card>
+      </v-col>
+      <v-col cols="6">
+        <v-card class="mt-4">
+          <v-card-title>
+            Отчет по заявкам
+          </v-card-title>
+          <v-form target="downloadframe" method="POST" action="http://dsfamsr.ru/api/report/365">
+            <v-card-text>
+              <v-date-picker
+                v-model="dates"
+                full-width
+                range
+              />
+            </v-card-text>
+            <v-divider></v-divider>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="primary" type="submit">
+                Скачать отчет
+              </v-btn>
+            </v-card-actions>
+          </v-form>
+        </v-card>
+      </v-col>
+    </v-row>
     <v-skeleton-loader
 v-if="!item"
       type="table-heading, image, list-item-two-line, list-item-two-line, list-item-two-line, list-item-two-line, actions" />
@@ -267,6 +297,7 @@ v-if="!item"
   export default {
     name: 'SingleItemPage',
     data: () => ({
+      dates: [],
       item: null,
       statuses: ['Создана', 'В обработке', 'Обработана'],
       comment: '',
@@ -363,7 +394,7 @@ v-if="!item"
         })
       },
       addComment() {
-        this.$axios.$post(`http://dsfamsr.ru/api/items/add-comment`, {
+        this.$axios.$post(`/items/add-comment`, {
           comment: this.comment,
           id: this.itemId
         }).then(result => {
@@ -381,7 +412,7 @@ v-if="!item"
       },
       onFormSubmit() {
         this.itemogressed = true;
-        this.$axios.$patch(`http://dsfamsr.ru/api/items/${this.item.id}`, this.item).then(result => {
+        this.$axios.$patch(`/items/${this.item.id}`, this.item).then(result => {
           console.log('onFormSubmit', result);
           this.result = result;
           this.newRequestForm.isProgressed = false;

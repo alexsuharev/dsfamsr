@@ -7,6 +7,7 @@
         <v-select v-model="filter.types.selected" :items="filter.types.items" label="Типы заявок" outlined hide-details>
         </v-select>
       </v-sheet>
+      <div class="d-flex align-center">
       <v-dialog v-model="newRequestForm.isOpened" width="900">
         <template #activator="{ on, attrs }">
           <v-btn color="primary" v-bind="attrs" x-large class="ml-4" v-on="on">
@@ -155,6 +156,82 @@ v-if="menu2" v-model="time" full-width format="24hr"
           </v-form>
         </v-card>
       </v-dialog>
+      <v-dialog v-model="reportsForm.isOpened" width="900">
+        <template #activator="{ on, attrs }">
+          <v-btn color="primary" v-bind="attrs" x-large class="ml-4" v-on="on">
+            Отчет
+          </v-btn>
+        </template>
+
+        <v-card>
+          <v-card-title>
+            Отчет по заявкам
+          </v-card-title>
+          <v-form target="downloadframe" method="POST" action="http://dsfamsr.ru/api/report/365">
+            <v-card-text>
+              <v-select
+                  v-model="reportsForm.data.type.selected" :items="reportsForm.data.type.items"
+                      label="Тип заявки" outlined hide-details class="mb-5" />
+                      <v-select
+                  v-model="reportsForm.data.priority.selected" :items="reportsForm.data.priority.items"
+                      label="Приоритет" outlined hide-details class="mb-5" />
+                    <v-select
+                  v-model="reportsForm.data.status.selected" :items="reportsForm.data.status.items"
+                      label="Статус" outlined hide-details class="mb-5" />
+                    <v-autocomplete
+  v-model="reportsForm.data.institute" :items="getInstitutes" outlined
+                      label="Образовательное учреждение" clearable :filter="filtering" class="mb-5" hide-details>
+                      <template #selection="data">
+                        <div>
+                          <div>
+                            <strong>{{ data.item.gk_name }}</strong>
+                          </div>
+                          <div>
+                            <span>{{ data.item.gk_address }}</span>
+                          </div>
+                        </div>
+                      </template>
+                      <template #item="data">
+                        <template>
+                          <v-list-item-content>
+                            <v-list-item-title>{{ data.item.gk_name }}</v-list-item-title>
+                            <v-list-item-subtitle>{{ data.item.gk_address }}</v-list-item-subtitle>
+                            <v-list-item-subtitle>{{ data.item.ifentificator }}</v-list-item-subtitle>
+                          </v-list-item-content>
+                        </template>
+                      </template>
+                    </v-autocomplete>
+                    <v-autocomplete
+  v-model="reportsForm.data.user"
+                      :items="getUsers" outlined label="Исполнитель" clearable class="mb-5"
+                      hide-details >
+                      <template #selection="data">
+                        {{ data.item.name }}
+                      </template>
+                      <template #item="data">
+                        {{ data.item.name }}
+                      </template>
+                      </v-autocomplete>
+                <v-date-picker
+                  v-model="reportsForm.data.date"
+                  full-width
+                  range
+                  flat
+                  :selected-items-text="`С ${dateRangeText}`"
+                />
+                
+            </v-card-text>
+            <v-divider></v-divider>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="primary" type="submit">
+                Скачать отчет
+              </v-btn>
+            </v-card-actions>
+          </v-form>
+        </v-card>
+      </v-dialog>
+      </div>
     </div>
     <v-data-table :headers="headers" :items="getItems" :items-per-page="5" class="elevation-1">
       <template #[`item.id`]="{ item }">
@@ -182,6 +259,51 @@ class="ma-2" color="yellow" text-color="black">
     data: () => ({
       time: null,
       menu2: false,
+      reportsForm: {
+        isOpened: false,
+        data: {
+          date: [],
+          // time: null,
+          institute: {},
+          user: {},
+          type: {
+            selected: 'Выезды',
+            items: [
+              'Сервисное обслуживание',
+              'Выезды',
+              'Допостaвка карт'
+            ]
+          },
+          priority: {
+            selected: 'Средний',
+            items: [
+              'Низкий',
+              'Средний',
+              'Высокий',
+              'Критический',
+            ]
+          },
+          request_type: {
+            selected: '',
+            items: [
+              'Демонтаж оборудования',
+              'Демонтаж СКУД',
+              'Монтаж оборудования',
+              'Монтаж СКУД',
+              'Перенос оборудования',
+              'Ремонт СКУД',
+            ]
+          },
+          status: {
+            selected: '',
+            items: [
+              'Создана',
+              'В обработке',
+              'Обработана',
+            ]
+          },
+        }
+      },
       newRequestForm: {
         isOpened: false,
         IsProgressed: false,
@@ -247,11 +369,18 @@ class="ma-2" color="yellow" text-color="black">
             sortable: false,
             value: 'id',
         },
-        { text: 'Тип', value: 'type', sortable: true },
+        // { text: 'Тип', value: 'type', sortable: true },
+        { text: 'Статус', value: 'status', sortable: true },
         { text: 'Исполнитель', value: 'executor', sortable: true },
+        { text: 'ЗНО', value: 'request_type', sortable: true },
+        { text: 'Инициатор', value: 'request_type', sortable: true },
+        { text: 'Крайний срок', value: 'expires_at_date', sortable: true },
       ],
     }),
     computed: {
+      dateRangeText () {
+        return this.reportsForm.data.date.join(' по ')
+      },
       computedDateFormattedMomentjs: {
         get() {
           console.log(this.newRequestForm.data.date);
