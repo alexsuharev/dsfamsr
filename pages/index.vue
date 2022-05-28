@@ -5,6 +5,9 @@
       <v-form target="downloadframe" method="POST" action="https://dsfamsr.ru/api/report/7">
         <v-btn color="primary" type="submit">
           Скачать отчет
+          <v-icon right>
+            mdi-printer
+          </v-icon>
         </v-btn>
       </v-form>
     </div>
@@ -14,6 +17,9 @@
       <v-form target="downloadframe" method="POST" action="https://dsfamsr.ru/api/report/30">
         <v-btn color="primary" type="submit">
           Скачать отчет
+          <v-icon right>
+            mdi-printer
+          </v-icon>
         </v-btn>
       </v-form>
     </div>
@@ -23,6 +29,9 @@
       <v-form target="downloadframe" method="POST" action="https://dsfamsr.ru/api/report/365">
         <v-btn color="primary" type="submit">
           Скачать отчет
+          <v-icon right>
+            mdi-printer
+          </v-icon>
         </v-btn>
       </v-form>
     </div>

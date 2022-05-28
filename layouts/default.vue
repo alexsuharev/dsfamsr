@@ -5,7 +5,7 @@
       color="white"
       flat
     >
-      <v-container class="py-0 fill-height">
+      <v-container fluid class="py-0 fill-height">
         <nuxt-link :to="{name: 'users-userId', params: {userId: $auth.user.id}}" class="d-flex align-center">
           <v-avatar size="36px" color="primary" class="mr-4">
             <img v-if="$auth.user.avatar" alt="Avatar" :src="$auth.user.avatar">
@@ -29,12 +29,15 @@
     </v-app-bar>
 
     <v-main class="grey lighten-3">
-      <v-container>
+      <v-container fluid>
         <v-row>
-          <v-col cols="2">
+          <v-col cols="3">
             <v-sheet rounded="lg">
               <v-list color="transparent">
                 <v-list-item v-for="link in links" :key="link.index" :to="{name: link.url }" exact>
+                  <v-list-item-icon class="mr-2">
+                    <v-icon v-text="link.icon" />
+                  </v-list-item-icon>
                   <v-list-item-content>
                     <v-list-item-title>
                       {{ link.text }}
@@ -49,6 +52,11 @@
                   color="grey lighten-4"
                   @click="logout"
                 >
+                  <v-list-item-icon class="mr-2">
+                    <v-icon>
+                      mdi-exit-run
+                    </v-icon>
+                  </v-list-item-icon>
                   <v-list-item-content>
                     <v-list-item-title>
                       Выход
@@ -82,19 +90,23 @@
       links: [
         {
           text: 'Главная',
-          url: 'index'
+          url: 'index',
+          icon: 'mdi-home'
         },
         {
           text: 'Заявки',
-          url: 'requests'
+          url: 'requests',
+          icon: 'mdi-chart-box'
         },
         {
           text: 'Пользователи',
-          url: 'users'
+          url: 'users',
+          icon: 'mdi-account-multiple'
         },
         {
-          text: 'Обр. учреждения',
-          url: 'objects'
+          text: 'Образовательные учреждения',
+          url: 'objects',
+          icon: 'mdi-town-hall'
         }
       ]
     }),

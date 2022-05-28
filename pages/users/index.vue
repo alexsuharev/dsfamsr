@@ -5,8 +5,11 @@
 
       <v-dialog v-model="newUser.isOpened" width="900">
         <template #activator="{ on, attrs }">
-          <v-btn color="primary" v-bind="attrs" x-large class="ml-4" v-on="on">
+          <v-btn color="primary" v-bind="attrs" class="ml-4" v-on="on">
             Создать пользователя
+            <v-icon right>
+                mdi-account-plus
+            </v-icon>
           </v-btn>
         </template>
 
@@ -54,6 +57,9 @@
               <v-spacer></v-spacer>
               <v-btn color="primary" type="submit">
                 Создать
+                <v-icon right>
+                mdi-check
+              </v-icon>
               </v-btn>
             </v-card-actions>
           </v-form>

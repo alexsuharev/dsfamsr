@@ -150,6 +150,9 @@ v-if="menu2" v-model="item.expires_at_time" full-width format="24hr"
                 <v-spacer></v-spacer>
                 <v-btn color="primary" type="submit">
                   Сохранить
+                  <v-icon right>
+                mdi-check
+              </v-icon>
                 </v-btn>
               </v-card-actions>
             </v-form>
@@ -254,6 +257,9 @@ v-if="menu2" v-model="item.expires_at_time" full-width format="24hr"
               <v-spacer></v-spacer>
               <v-btn color="primary" type="submit">
                 Добавить
+                <v-icon right>
+                mdi-plus
+              </v-icon>
               </v-btn>
             </v-card-actions>
           </v-form>
@@ -277,6 +283,9 @@ v-if="menu2" v-model="item.expires_at_time" full-width format="24hr"
               <v-spacer></v-spacer>
               <v-btn color="primary" type="submit">
                 Скачать отчет
+                <v-icon right>
+                  mdi-printer
+                </v-icon>
               </v-btn>
             </v-card-actions>
           </v-form>

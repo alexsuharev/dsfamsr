@@ -5,8 +5,11 @@
       <div class="d-flex align-center">
         <v-dialog v-model="newRequestForm.isOpened" width="900">
         <template #activator="{ on, attrs }">
-          <v-btn color="primary" v-bind="attrs" x-large class="ml-4" v-on="on">
+          <v-btn color="primary" v-bind="attrs" class="ml-4" v-on="on">
             создать заявку
+            <v-icon right>
+              mdi-chart-box-plus-outline
+            </v-icon>
           </v-btn>
         </template>
 
@@ -119,6 +122,9 @@ v-if="menu2" v-model="time" full-width format="24hr"
               <v-spacer></v-spacer>
               <v-btn color="primary" type="submit">
                 Создать
+                <v-icon right>
+                  mdi-check
+                </v-icon>
               </v-btn>
             </v-card-actions>
           </v-form>
@@ -126,8 +132,11 @@ v-if="menu2" v-model="time" full-width format="24hr"
         </v-dialog>
         <v-dialog v-if="newObjectForm.data" v-model="newObjectForm.isOpened" width="900">
           <template #activator="{ on, attrs }">
-            <v-btn color="primary" v-bind="attrs" x-large class="ml-4" v-on="on">
+            <v-btn color="primary" v-bind="attrs" class="ml-4" v-on="on">
               редактировать Оу
+              <v-icon right>
+                  mdi-pencil
+                </v-icon>
             </v-btn>
           </template>
 
@@ -258,6 +267,9 @@ v-if="menu2" v-model="time" full-width format="24hr"
               <v-spacer></v-spacer>
               <v-btn color="primary" type="submit">
                 Сохранить
+                <v-icon right>
+                  mdi-check
+                </v-icon>
               </v-btn>
             </v-card-actions>
               </v-form>
