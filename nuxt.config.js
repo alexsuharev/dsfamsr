@@ -1,10 +1,10 @@
 import colors from 'vuetify/es5/util/colors'
 
 export default {
-  server: {
+  // server: {
     // host: '0', // default: localhost
-    base: '/dsfamsr/'
-  },
+  //   base: '/dsfamsr/'
+  // },
   router: {
     middleware: ['auth']
   },
