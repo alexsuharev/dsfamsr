@@ -9,9 +9,7 @@
                     class="avatar_in"
                     rounded="10"
                 >
-                    <v-icon size="80" color="white">
-                        mdi-account
-                    </v-icon>
+                    <img alt="Avatar" src="https://thispersondoesnotexist.com/image">
                 </v-avatar>
             </div>
             <v-btn color="primary" width="100%" class="mt-4" outlined :to="{ name: 'users-userId-edit' }">

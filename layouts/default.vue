@@ -7,10 +7,10 @@
     >
       <v-container fluid class="py-0 fill-height">
         <nuxt-link :to="{name: 'users-userId', params: {userId: $auth.user.id}}" class="d-flex align-center">
-          <v-avatar size="36px" color="primary" class="mr-4">
-            <img v-if="$auth.user.avatar" alt="Avatar" :src="$auth.user.avatar">
-            <v-icon v-else color="#fff">mdi-account</v-icon>
-          </v-avatar>
+          <!-- <v-avatar size="36px" color="primary" class="mr-4"> -->
+            <!-- <img alt="Avatar" src="https://thispersondoesnotexist.com/image"> -->
+            <!-- <v-icon v-else color="#fff">mdi-account</v-icon> -->
+          <!-- </v-avatar> -->
           <strong>{{ $auth.user.name }}</strong>
         </nuxt-link>
 
