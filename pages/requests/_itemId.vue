@@ -264,7 +264,7 @@ v-if="menu2" v-model="item.expires_at_time" full-width format="24hr"
           <v-card-title>
             Отчет по заявкам
           </v-card-title>
-          <v-form target="downloadframe" method="POST" action="http://dsfamsr.ru/api/report/365">
+          <v-form target="downloadframe" method="POST" action="https://dsfamsr.ru/api/report/365">
             <v-card-text>
               <v-date-picker
                 v-model="dates"

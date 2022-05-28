@@ -2,7 +2,7 @@
   <div class="wrapper">
     <div class="d-flex align-items-center justify-space-between mb-5">
       <pages-title text="Заявки за неделю" />
-      <v-form target="downloadframe" method="POST" action="http://dsfamsr.ru/api/report/7">
+      <v-form target="downloadframe" method="POST" action="https://dsfamsr.ru/api/report/7">
         <v-btn color="primary" type="submit">
           Скачать отчет
         </v-btn>
@@ -11,7 +11,7 @@
     <LineChart ref="doughnutRef" :chart-data="weekData" :options="options" />
     <div class="d-flex align-items-center justify-space-between mb-5 mt-15">
       <pages-title text="Заявки за Месяц" />
-      <v-form target="downloadframe" method="POST" action="http://dsfamsr.ru/api/report/30">
+      <v-form target="downloadframe" method="POST" action="https://dsfamsr.ru/api/report/30">
         <v-btn color="primary" type="submit">
           Скачать отчет
         </v-btn>
@@ -20,7 +20,7 @@
     <LineChart ref="doughnutRef" :chart-data="monthData" :options="options" />
     <div class="d-flex align-items-center justify-space-between mb-5 mt-15">
       <pages-title text="Заявки за Год" />
-      <v-form target="downloadframe" method="POST" action="http://dsfamsr.ru/api/report/365">
+      <v-form target="downloadframe" method="POST" action="https://dsfamsr.ru/api/report/365">
         <v-btn color="primary" type="submit">
           Скачать отчет
         </v-btn>

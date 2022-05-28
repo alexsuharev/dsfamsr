@@ -91,9 +91,9 @@ export default {
           // autoFetch: true
         },
         endpoints: {
-          login: { url: 'http://dsfamsr.ru/api/login', method: 'post' },
-          logout: { url: 'http://dsfamsr.ru/api/logout', method: 'post' },
-          user: { url: 'http://dsfamsr.ru/api/get-user', method: 'get' }
+          login: { url: 'https://dsfamsr.ru/api/login', method: 'post' },
+          logout: { url: 'https://dsfamsr.ru/api/logout', method: 'post' },
+          user: { url: 'https://dsfamsr.ru/api/get-user', method: 'get' }
         }
       }
     }
@@ -113,7 +113,7 @@ export default {
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    baseURL: 'http://dsfamsr.ru/api',
+    baseURL: 'https://dsfamsr.ru/api',
   },
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
