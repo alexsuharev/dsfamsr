@@ -385,7 +385,7 @@ class="ma-2" color="yellow" text-color="black">
         { text: 'Статус', value: 'status', sortable: true },
         { text: 'Исполнитель', value: 'executor', sortable: true },
         { text: 'ЗНО', value: 'request_type', sortable: true },
-        { text: 'Инициатор', value: 'request_type', sortable: true },
+        { text: 'Инициатор', value: 'requestor_name', sortable: true },
         { text: 'Крайний срок', value: 'expires_at_date', sortable: true },
       ],
     }),
